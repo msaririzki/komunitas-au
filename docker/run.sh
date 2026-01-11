@@ -2,46 +2,67 @@
 
 cd /var/www
 
+echo "🚀 Starting Deployment Script..."
+
 # 1. Environment Setup
 if [ ! -f .env ]; then
-    echo "Creating .env file..."
+    echo "📄 Creating .env file from example..."
     cp .env.example .env
     php artisan key:generate
 fi
 
-# 2. PHP Dependencies
+# 2. Permissions (Fix for Local/Server consistency)
+echo "🔒 Fixing Permissions..."
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# 3. PHP Dependencies
 if [ ! -d "vendor" ]; then
-    echo "Installing Composer dependencies..."
+    echo "📦 Installing Composer dependencies..."
     composer install --no-interaction --optimize-autoloader --no-dev
 fi
 
-# 3. Node Dependencies & Build
+# 4. Node Dependencies & Build
 if [ ! -d "node_modules" ] || [ ! -d "public/build" ]; then
-    echo "Installing Node dependencies and building assets..."
+    echo "🎨 Installing Node dependencies and building assets..."
     npm install
     npm run build
 fi
 
-# 4. Wait for Database (Simple sleep, usually DB container takes a few seconds)
-echo "Waiting for Database..."
-sleep 10
+# 5. Wait for Database (Robust Check)
+echo "⏳ Waiting for Database connection..."
+MAX_RETRIES=30
+COUNT=0
+while ! php artisan db:show > /dev/null 2>&1; do
+    echo "   ...waiting for mysql ($COUNT/$MAX_RETRIES)"
+    sleep 2
+    COUNT=$((COUNT+1))
+    if [ $COUNT -ge $MAX_RETRIES ]; then
+        echo "❌ Database connection failed after timeout."
+        exit 1
+    fi
+done
+echo "✅ Database is connected!"
 
-# 5. Database Migration
-echo "Running Migrations..."
+# 6. Database Migration & Seed
+echo "🔄 Running Migrations..."
 php artisan migrate --force
 
-# Helpful: Seed if users table is empty (Prevent duplication on restarts)
-# Note: This is a simple check. Adjust logic if needed.
-if [ $(php artisan tinker --execute="echo \App\Models\User::count()") -eq 0 ]; then
-    echo "Seeding Database..."
+# Seed only if no users exist
+USER_COUNT=$(php artisan tinker --execute="echo \App\Models\User::count()" | tail -n 1)
+if [ "$USER_COUNT" -eq "0" ]; then
+    echo "🌱 Seeding Database with Dummy Data..."
     php artisan db:seed --force
+else
+    echo "✨ Database already populated. Skipping seed."
 fi
 
-# 6. Storage Link
+# 7. Storage Link
 if [ ! -L "public/storage" ]; then
+    echo "🔗 Linking Storage..."
     php artisan storage:link
 fi
 
-# 7. Start PHP-FPM
-echo "Starting PHP-FPM..."
+# 8. Start PHP-FPM
+echo "🏁 Setup Complete! Starting PHP-FPM..."
 php-fpm

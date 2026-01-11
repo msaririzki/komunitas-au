@@ -24,8 +24,8 @@
             <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
         </div>
 
-        <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 relative z-10 p-4">
-            <div class="mb-8">
+        <div class="min-h-screen flex flex-col justify-center items-center pt-12 sm:pt-0 relative z-10 p-4">
+            <div class="mb-10 mt-6">
                 <a href="/" class="group flex flex-col items-center gap-4">
                      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-purple to-neon-pink flex items-center justify-center text-white font-black text-2xl tracking-tighter shadow-2xl shadow-neon-purple/30 group-hover:scale-110 transition-transform duration-500 hover:rotate-6">
                         AU
