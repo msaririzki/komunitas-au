@@ -16,7 +16,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-white selection:bg-neon-purple selection:text-white bg-midnight-900 h-screen overflow-hidden">
+    <body class="font-sans antialiased text-white selection:bg-neon-purple selection:text-white bg-midnight-900 min-h-screen">
         <!-- Persistent Mesh Gradient Background -->
         <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
             <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-neon-purple/20 rounded-full blur-[120px] animate-blob"></div>
@@ -36,7 +36,7 @@
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md px-8 py-10 glass-card border border-white/10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+            <div class="w-full sm:max-w-[500px] px-8 py-10 glass-card border border-white/10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
                 <!-- Card Glow Effect -->
                 <div class="absolute -top-20 -right-20 w-40 h-40 bg-neon-blue/20 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition duration-1000"></div>
                 <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-neon-purple/20 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition duration-1000"></div>
