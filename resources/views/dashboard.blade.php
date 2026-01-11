@@ -75,7 +75,7 @@
                             
                             <div class="space-y-4">
                                 @forelse($recent_comments as $comment)
-                                    <div onclick="const el = document.getElementById('post-card-{{ $comment->post_id }}'); if(el){ el.scrollIntoView({ behavior: 'smooth', block: 'center' }) } else { window.location.href = '{{ route('profile.show', $comment->post->user->username) }}#post-{{ $comment->post_id }}' }" 
+                                    <div onclick="const el = document.getElementById('post-card-{{ $comment->post_id }}'); if(el){ el.scrollIntoView({ behavior: 'smooth', block: 'center' }) } else { window.location.href = '{{ $comment->post->user->username ? route('profile.show', $comment->post->user->username) : '#' }}#post-{{ $comment->post_id }}' }" 
                                          class="group flex gap-3 items-start p-3 rounded-xl hover:bg-white/5 transition border border-transparent hover:border-white/5 cursor-pointer">
                                         <div class="shrink-0 relative">
                                             @if($comment->user->profile_photo)

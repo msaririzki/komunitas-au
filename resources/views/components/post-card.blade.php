@@ -17,7 +17,7 @@
             }).catch(() => { this.liked = !this.liked; this.count += this.liked ? 1 : -1; });
         },
         share() {
-            const url = '{{ route('profile.show', $post->user->username) }}#post-{{ $post->id }}';
+            const url = '{{ $post->user->username ? route('profile.show', $post->user->username) : '#' }}#post-{{ $post->id }}';
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(url).then(() => {
                     window.toast('Link berhasil disalin! 🚀');
@@ -90,7 +90,7 @@
     <!-- Header: User, Time & Menu -->
     <div class="flex justify-between items-start mb-5 px-2 relative">
         <div class="flex gap-4 items-center">
-            <a href="{{ route('profile.show', $post->user->username) }}" class="relative group/avatar">
+            <a href="{{ $post->user->username ? route('profile.show', $post->user->username) : '#' }}" class="relative group/avatar">
                 <div class="absolute inset-0 bg-gradient-to-tr from-neon-blue to-neon-purple rounded-full blur opacity-50 group-hover/avatar:opacity-100 transition duration-500"></div>
                 @if($post->user->profile_photo)
                     <img src="{{ $post->user->profile_photo }}" loading="lazy" class="h-12 w-12 rounded-full object-cover ring-2 ring-white/10 relative z-10 group-hover/avatar:ring-white/30 transition">
@@ -101,7 +101,7 @@
                 @endif
             </a>
             <div class="flex flex-col">
-                <a href="{{ route('profile.show', $post->user->username) }}" class="font-bold text-white text-lg hover:text-neon-blue transition leading-tight line-clamp-1 max-w-[140px] sm:max-w-[200px]" title="{{ $post->user->name }}">
+                <a href="{{ $post->user->username ? route('profile.show', $post->user->username) : '#' }}" class="font-bold text-white text-lg hover:text-neon-blue transition leading-tight line-clamp-1 max-w-[140px] sm:max-w-[200px]" title="{{ $post->user->name }}">
                     {{ $post->user->name }}
                 </a>
                 <span class="text-gray-500 text-xs font-medium flex items-center gap-1">
