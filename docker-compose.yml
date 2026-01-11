@@ -1,0 +1,51 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: au-community-app
+        container_name: au_app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - au_net
+
+    webserver:
+        image: nginx:alpine
+        container_name: au_webserver
+        restart: unless-stopped
+        ports:
+            - "8090:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        networks:
+            - au_net
+        depends_on:
+            - app
+
+    db:
+        image: mysql:8.0
+        container_name: au_db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_USER: ${DB_USERNAME:-laravel}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - au_net
+
+networks:
+    au_net:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local

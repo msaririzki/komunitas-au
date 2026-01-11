@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-[#020205] text-white antialiased;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+}
+
+@layer utilities {
+    .glass-card {
+        @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
+    }
+    
+    .glass-nav {
+        @apply bg-[#0A0A0F]/80 backdrop-blur-md border-b border-white/5;
+    }
+
+    .text-glow {
+        text-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
+    }
+}
+
+/* Hide Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #020205;
+}
+::-webkit-scrollbar-thumb {
+    background: #1f1f2e;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2d2d42;
+}
+
+/* Utility to completely hide scrollbar but allow scrolling */
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}
