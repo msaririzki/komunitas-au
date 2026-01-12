@@ -33,6 +33,6 @@ RUN mkdir -p /home/dev/.composer && \
 COPY docker/run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
 
-USER dev
+# USER dev (Moved to entrypoint)
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
