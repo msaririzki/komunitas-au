@@ -11,6 +11,13 @@ if [ ! -f .env ]; then
     php artisan key:generate
 fi
 
+# Force DB_HOST to match container name (fix for existing .env issues)
+if grep -q "DB_HOST=" .env; then
+    sed -i 's/DB_HOST=.*/DB_HOST=au_db/' .env
+else
+    echo "DB_HOST=au_db" >> .env
+fi
+
 # 2. Permissions (Fix for Local/Server consistency)
 echo "🔒 Fixing Permissions..."
 chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
