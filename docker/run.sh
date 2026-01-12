@@ -73,5 +73,8 @@ fi
 # 8. Start PHP-FPM
 echo "🏁 Setup Complete! Starting PHP-FPM..."
 # 8. Start PHP-FPM
+# 8. Start PHP-FPM
 echo "🏁 Setup Complete! Starting PHP-FPM..."
-exec su -s /bin/sh -c "php-fpm" dev
+# Fix ownership one last time before starting (in case migrations created root-owned files)
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+php-fpm
