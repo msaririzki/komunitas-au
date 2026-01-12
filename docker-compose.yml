@@ -51,7 +51,7 @@ services:
             PMA_PORT: 3306
             PMA_ARBITRARY: 1
         ports:
-            - "8081:80"
+            - "8085:80"
         depends_on:
             - db
         networks:
