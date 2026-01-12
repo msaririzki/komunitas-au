@@ -38,9 +38,9 @@ fi
 
 # 5. Wait for Database (Robust Check)
 echo "⏳ Waiting for Database connection..."
-MAX_RETRIES=30
+MAX_RETRIES=60
 COUNT=0
-while ! php artisan db:show > /dev/null 2>&1; do
+while ! php artisan db:show; do
     echo "   ...waiting for mysql ($COUNT/$MAX_RETRIES)"
     sleep 2
     COUNT=$((COUNT+1))

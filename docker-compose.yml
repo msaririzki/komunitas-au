@@ -37,6 +37,7 @@ services:
             MYSQL_USER: ${DB_USERNAME:-laravel}
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
+        command: --default-authentication-plugin=mysql_native_password
         volumes:
             - dbdata:/var/lib/mysql
         networks:
